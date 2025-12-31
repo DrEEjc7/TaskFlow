@@ -50,14 +50,6 @@
                 </div>
             </div>
 
-            <!-- Helpful Hint Banner -->
-            <div id="hintBanner" class="hint-banner" style="display: none;">
-                <div class="hint-content">
-                    <strong>💡 Tip:</strong> Hover over any task to see ⮕ and ⮔ buttons. Click ⮕ to make it a subtask, or use <kbd>Tab</kbd> and <kbd>Shift+Tab</kbd> keys!
-                </div>
-                <button id="closeHint" class="hint-close" aria-label="Close hint">×</button>
-            </div>
-
             <!-- Add Task Input -->
             <div class="add-task-container">
                 <input
@@ -69,20 +61,69 @@
                 >
             </div>
 
-            <!-- Task List -->
-            <div class="task-list-container">
-                <div id="taskList" class="task-list">
-                    <!-- Tasks will be rendered here -->
+            <!-- Main Layout: Task List + Detail Panel -->
+            <div class="app-layout">
+                <!-- Task List (Left Side) -->
+                <div class="task-list-container">
+                    <div id="taskList" class="task-list">
+                        <!-- Tasks will be rendered here -->
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="emptyState" class="empty-state">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 11l3 3L22 4"/>
+                            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                        </svg>
+                        <h2>No tasks yet</h2>
+                        <p>Add your first task above to get started</p>
+                    </div>
                 </div>
 
-                <!-- Empty State -->
-                <div id="emptyState" class="empty-state">
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M9 11l3 3L22 4"/>
-                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
-                    </svg>
-                    <h2>No tasks yet</h2>
-                    <p>Add your first task above to get started</p>
+                <!-- Detail Panel (Right Side) -->
+                <div id="detailPanel" class="detail-panel" style="display: none;">
+                    <div class="detail-header">
+                        <button id="closeDetail" class="close-detail-btn" aria-label="Close details">×</button>
+                    </div>
+
+                    <div class="detail-content">
+                        <!-- Task Title -->
+                        <div class="detail-task">
+                            <input type="checkbox" id="detailCheckbox" class="task-checkbox">
+                            <div id="detailTaskText" class="detail-task-text" contenteditable="true"></div>
+                        </div>
+
+                        <!-- Subtasks Section -->
+                        <div class="detail-subtasks">
+                            <h3 class="subtasks-heading">Subtasks</h3>
+
+                            <!-- Add Subtask Input -->
+                            <div class="add-subtask-container">
+                                <input
+                                    type="text"
+                                    id="newSubtaskInput"
+                                    class="new-subtask-input"
+                                    placeholder="Add a subtask... (Press Enter)"
+                                    autocomplete="off"
+                                >
+                            </div>
+
+                            <!-- Subtask List -->
+                            <div id="subtaskList" class="subtask-list">
+                                <!-- Subtasks will be rendered here -->
+                            </div>
+
+                            <!-- Empty Subtask State -->
+                            <div id="emptySubtaskState" class="empty-subtask-state">
+                                <p>No subtasks yet. Add one above!</p>
+                            </div>
+                        </div>
+
+                        <!-- Delete Task Button -->
+                        <button id="deleteTaskBtn" class="delete-task-btn">
+                            Delete Task
+                        </button>
+                    </div>
                 </div>
             </div>
 
