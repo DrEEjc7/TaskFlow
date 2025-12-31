@@ -382,6 +382,58 @@ body {
     color: var(--color-text-primary);
 }
 
+/* Due date badge */
+.task-due-date {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    background-color: var(--color-bg-tertiary);
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    transition: all var(--transition-fast);
+}
+
+.task-item:hover .task-due-date {
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+}
+
+/* Due today - highlight with primary color */
+.task-due-date.today {
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+}
+
+.task-item:hover .task-due-date.today {
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+    transform: scale(1.05);
+}
+
+/* Overdue - highlight with danger color */
+.task-due-date.overdue {
+    background-color: var(--color-danger);
+    color: var(--color-text-inverse);
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.task-item:hover .task-due-date.overdue {
+    background-color: var(--color-danger);
+    color: var(--color-text-inverse);
+    transform: scale(1.05);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
 /* Chevron indicator */
 .task-chevron {
     font-size: 1.125rem;

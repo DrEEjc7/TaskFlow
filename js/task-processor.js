@@ -14,7 +14,7 @@ class TaskManager {
     /**
      * Create a new task
      */
-    static createTask(text, parentId = null, indentLevel = 0) {
+    static createTask(text, parentId = null, indentLevel = 0, dueDate = null) {
         if (!text || !text.trim()) {
             return null;
         }
@@ -25,6 +25,7 @@ class TaskManager {
             completed: false,
             parentId: parentId,
             indentLevel: indentLevel,
+            dueDate: dueDate,
             createdAt: Date.now(),
             updatedAt: Date.now()
         };
@@ -351,7 +352,8 @@ class TaskManager {
                 this.tasks = (data.tasks || []).map(task => ({
                     ...task,
                     parentId: task.parentId || null,
-                    indentLevel: task.indentLevel || 0
+                    indentLevel: task.indentLevel || 0,
+                    dueDate: task.dueDate ? new Date(task.dueDate) : null
                 }));
                 this.currentId = data.currentId || 1;
                 return true;

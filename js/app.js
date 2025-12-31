@@ -232,13 +232,23 @@ class TaskFlowApp {
         const input = this.elements.newTaskInput;
         if (!input || !input.value.trim()) return;
 
-        const task = TaskManager.createTask(input.value);
+        // Parse the input for dates using NLP
+        const { cleanText, dueDate } = DateParser.parse(input.value);
+
+        const task = TaskManager.createTask(cleanText, null, 0, dueDate);
         if (task) {
             input.value = '';
             this.renderTasks();
             this.updateStats();
             this.scheduleSave();
-            this.showToast('Task added');
+
+            // Show different toast message if date was parsed
+            if (dueDate) {
+                const dateStr = DateParser.formatDate(dueDate);
+                this.showToast(`Task added (Due: ${dateStr})`);
+            } else {
+                this.showToast('Task added');
+            }
 
             // Keep focus in input for quick multi-add
             requestAnimationFrame(() => {
@@ -424,9 +434,30 @@ class TaskFlowApp {
 
         contentDiv.appendChild(textDiv);
 
-        // Right section: Meta info (badge + chevron)
+        // Right section: Meta info (due date + badge + chevron)
         const metaDiv = document.createElement('div');
         metaDiv.className = 'task-meta';
+
+        // Due date badge (if has due date)
+        if (task.dueDate) {
+            const dueDateBadge = document.createElement('span');
+            dueDateBadge.className = 'task-due-date';
+            dueDateBadge.textContent = DateParser.formatDate(task.dueDate);
+
+            // Add overdue class if past due
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const dueDay = new Date(task.dueDate);
+            dueDay.setHours(0, 0, 0, 0);
+
+            if (dueDay < today && !task.completed) {
+                dueDateBadge.classList.add('overdue');
+            } else if (dueDay.getTime() === today.getTime()) {
+                dueDateBadge.classList.add('today');
+            }
+
+            metaDiv.appendChild(dueDateBadge);
+        }
 
         // Subtask count badge (if has subtasks)
         if (subtaskStats.total > 0) {
